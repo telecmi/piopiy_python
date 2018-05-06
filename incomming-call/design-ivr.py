@@ -54,8 +54,15 @@ def routecall():
 @app.route("/next-ivr",methods=['POST'])
 def nextivr():
 
+  did = request.form['did']
+  caller = request.form['from']
+  dtmf = request.form['dtmf']
+  print(did)
+  print(caller)
+  print(dtmf)
+
   # Send Route Call JSON  API to PIOPIY 
-   ivr={
+  ivr={
       "ivr": {
         "welcome":{
          "play":{
@@ -94,21 +101,27 @@ def nextivr():
       }
    }
 
-   return jsonify(ivr)
+  return jsonify(ivr)
 
 
 
 @app.route("/get-dtmf",methods=['POST'])
 def getdtmf():
+   
+   did = request.form['did']
+   caller = request.form['from']
+   dtmf = request.form['dtmf']
+   print(did)
+   print(caller)
+   print(dtmf)
 
-  play = {
+   play = {
       "play":{
-
         "url":"http://example.com/music/thanks.com"
       }
    }
   
-  return jsonify(play)
+   return jsonify(play)
 
 
 

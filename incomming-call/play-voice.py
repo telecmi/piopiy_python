@@ -3,15 +3,17 @@ app = Flask(__name__)
 
 @app.route("/you-have-call",methods=['POST'])
 def hello():
-    piopiy = request.get_json()
-    print(piopiy['did'])
-    print(piopiy['from'])
+    did = request.form['did']
+    caller = request.form['from']
+    print(did)
+    print(caller)
 
    # send Play Audio JSON API to PIOPIY
     play = {
-
-          'url':'http://telecmi.com/music/welcome.wav'
-    }
+         'play':{
+            'url':'http://telecmi.com/music/welcome.wav'
+            }
+            }
 
     return jsonify(play)
 

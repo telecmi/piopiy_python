@@ -29,27 +29,20 @@ In order to authenticate your app, and to make an API request, you should have a
 Specifiy the authentication credentials 
 
 ```python
-
 import piopiy
-
 client=piopiy.RestClient('your_app_id','your_app_secret')
-
 ```
 
 ### Make a call
 
 To make a call, mention the to_number, piopiy_phone_number and <a href="https://doc.telecmi.com/piopiy/docs/configure-url" target="_blank">answer_url</a>.
 
-```javascript
-
+```python
 response=client.make(
      'your_to_number',
      'your_piopiy_phone_number',
      'your_answer_url'
 )
-
-
-
 ```
 ### More Examples
 

@@ -7,5 +7,5 @@ class RestClient:
         self.appid = appid
         self.secret = secret
 
-    def create(self, to, piopiy_no, answer_url):
+    def make(self, to, piopiy_no, answer_url):
         return Voice(self.appid, self.secret).make(to, piopiy_no, answer_url)

@@ -1,5 +1,4 @@
-# piopiy-python
-PIOPIY Python example  for Incomming and Outgoing Calls
+# PIOPIY Python SDK
 
 The PIOPIY python SDK is used to integrate communications into your python applications using the PIOPIY REST API. Using the PIOPIY python SDK, you will be able to make voice calls and can control your call flows.
 

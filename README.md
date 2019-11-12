@@ -42,13 +42,13 @@ To make a call, mention the to_number, piopiy_phone_number and <a href="https://
 
 ```javascript
 
-r=client.make(
+response=client.make(
      'your_to_number',
      'your_piopiy_phone_number',
      'your_answer_url'
 )
 
-print(r)
+
 
 ```
 ### More Examples

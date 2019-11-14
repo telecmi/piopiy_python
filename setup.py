@@ -11,7 +11,7 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="0.5.0",
+    version="0.6.0",
     description="PIOPIY REST API for Python",
     long_description=long_description,
     long_description_content_type="text/markdown",

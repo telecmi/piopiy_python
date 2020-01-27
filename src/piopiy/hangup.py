@@ -1,8 +1,7 @@
 import requests
 import json
 
-#host = "https://piopiy.telecmi.com/v1/call/action"
-host = "http://localhost:8181/v1/call/action"
+host = "https://piopiy.telecmi.com/v1/call/action"
 
 
 class Hangup:

@@ -44,9 +44,40 @@ response=client.make(
      'your_answer_url'
 )
 ```
+
+### Hold a call
+
+To hold a call, mention the cmiuuid of the call.
+
+```python
+response=client.hold('cmiuuid')
+```
+
+### Unhold a call
+To unhold a call, mention the cmiuuid of the call.
+
+```python
+response=client.unhold('cmiuuid')
+```
+### Toggle a call
+To toggle a call, mention the cmiuuid of the call.
+
+```python
+response=client.toggle('cmiuuid')
+```
+
+### Hangup a call
+To Hangup a call, mention the cmiuuid of the call.
+
+```python
+response=client.hanup('cmiuuid')
+```
 ### More Examples
 
 Refer to the <a href="https://doc.telecmi.com/piopiy/docs/pcmo-overview" target="_blank">piopiy docs</a> for more examples. Now create the <a href="https://doc.telecmi.com/piopiy/docs/get-started#signup" target="_blank">PIOPIY account</a> and setup the flask server and test out your integration in few minutes.
+
+
+
 
 ### Reporting issues
 

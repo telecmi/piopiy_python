@@ -1,7 +1,6 @@
-from voice import Voice
-from hold import Hold
-from hangup import Hangup
-from transfer import Transfer
+from .voice import Voice
+from .hold import Hold
+from .hangup import Hangup
 
 
 class RestClient:

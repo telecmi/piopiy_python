@@ -1,0 +1,8 @@
+README.md
+setup.py
+piopiy/__init__.py
+piopiy.egg-info/PKG-INFO
+piopiy.egg-info/SOURCES.txt
+piopiy.egg-info/dependency_links.txt
+piopiy.egg-info/requires.txt
+piopiy.egg-info/top_level.txt

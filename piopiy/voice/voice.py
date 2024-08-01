@@ -1,7 +1,7 @@
-import requests
-import json
+from .pcmo_call import PCMO
+from piopiy.underscore import isNumber, isString,isArray
 
-host = "https://piopiy.telecmi.com/v1/make_call"
+
 
 
 class Voice:
@@ -10,13 +10,9 @@ class Voice:
         self.appid = appid
         self.secret = secret
 
-    def make(self, to, piopiy_no, answer_url):
+    def call(self, to, piopiy_no, to_or_array,options='none'):
 
-        if isinstance(to, int) and isinstance(piopiy_no, int) and isinstance(answer_url, str):
-            data = {'from': piopiy_no, 'appid': self.appid,
-                    'secret': self.secret, 'to': to, 'answer_url': answer_url}
-            headers = {'content-type': 'application/json'}
-            return requests.post(host, data=json.dumps(data), headers=headers).text
+        if isinstance(to, int) and isinstance(piopiy_no, int) and isArray(to_or_array) or isNumber(to_or_array):
+            return PCMO(self.appid, self.secret).make(to, piopiy_no, to_or_array, options)
         else:
-
             raise NameError('invalid argument type to make call')

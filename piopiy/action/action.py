@@ -61,7 +61,7 @@ class Action:
         self.action.append(dtmf)
 
     def PCMO(self):
-        return json.dumps(self.action)
+        return self.action
     
     def clear(self):
         self.action = []

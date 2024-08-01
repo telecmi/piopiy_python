@@ -1,1 +1,1 @@
-from .underscore import isString, isNumber, isArray, isObject,isURL
+from .underscore import isIND,isString, isNumber, isArray, isObject,isURL

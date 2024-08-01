@@ -1,5 +1,5 @@
 from piopiy import Action
-
+from piopiy import RestClient
 
 
 def main():
@@ -15,7 +15,9 @@ def main():
   action.playGetInput('https://telecmi.com/input','https://telecmi.com/s3/music/telecmi.mp3',{'max_digits': 1, 'timeout': 10, 'max_retry': 1})
 
   print(action.PCMO())
-  action.clear()
-  print(action.PCMO())
+ 
+
+
+  print(result['code'])
 if __name__ == '__main__':
   main()

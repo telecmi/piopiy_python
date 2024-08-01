@@ -6,11 +6,14 @@ from .hangup import Hangup
 class RestClient:
 
     def __init__(self, appid, secret):
-        self.appid = appid
-        self.secret = secret
 
-    def make(self, to, piopiy_no, answer_url):
-        return Voice(self.appid, self.secret).make(to, piopiy_no, answer_url)
+        if isinstance(appid, int) and isinstance(secret, str):
+          
+         self.appid = appid
+         self.secret = secret
+         self.voice = Voice(self.appid, self.secret)
+        else:
+              raise NameError('appid and secret type is invalid')
 
     def hold(self, uuid):
         return Hold(self.appid, self.secret).hold(uuid)

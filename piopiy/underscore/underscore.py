@@ -27,3 +27,15 @@ def isURL(url):
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
     return re.match(url_pattern, url) is not None
+
+def isIND(piopiy_no):
+
+    number = str(piopiy_no)
+    # Remove any leading or trailing whitespace
+    number = number.strip()
+    
+    # Regular expression to check for Indian mobile numbers starting with '91'
+    pattern = re.compile(r'^91[6789]\d{9}$')
+    
+    # Match the number with the pattern
+    return bool(pattern.match(number))

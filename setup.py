@@ -11,8 +11,8 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="0.7.1",
-    description="PIOPIY REST API for Python",
+    version="1.0.1",
+    description="PIOPIY SDK for Python",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/telecmi/piopiy_python",
@@ -21,7 +21,7 @@ setup(
     license="MIT",
     packages=find_packages(),
     platforms=["any"],
-    install_requires=["requests>=2.4.2"],
+    install_requires=["requests>=2.32.3"],
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     classifiers=[
         "Programming Language :: Python",

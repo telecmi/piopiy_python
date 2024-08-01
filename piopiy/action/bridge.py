@@ -1,4 +1,4 @@
-from piopiy.underscore import isString, isNumber, isArray, isObject
+from piopiy.underscore import isNumber, isArray, isObject
 
 
 def connect(to_or_array, piopiy_no, option):

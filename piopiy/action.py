@@ -1,6 +1,6 @@
-from underscore import isString
-from bridge import connect
-from input import input
+from piopiy.underscore import isString
+from piopiy.action.bridge import connect
+from piopiy.input import input
 import json
 
 

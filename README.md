@@ -374,7 +374,7 @@ if __name__ == '__main__':
            - `loop` (Number): Number of retry attempts for each number.
            - `record` (Boolean): Whether to record the call.
 
-9. **hangup()**
+9. **PCMO()**
 
       - No parameters. Return PCMO Object
 

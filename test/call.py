@@ -6,7 +6,7 @@ def main():
   action = Action()
   #action.playMusic('telecmi.mp3')
   #action.playMusic('https://telecmi.com/telecmi.mp3')
-  action.call([919894269392,919842357292],918035731371,{ 'timeout': 20, 'loop': 4})
+  action.call([91989426,9198423],9180357,{ 'timeout': 20, 'loop': 4})
   #action.speak('Hello World')
   # action.setValue('myid1234567890')
   ## action.record()

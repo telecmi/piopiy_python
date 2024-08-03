@@ -1,2 +1,2 @@
-from piopiy.client import RestClient
-from piopiy.action import Action
+from client import RestClient
+from action import Action

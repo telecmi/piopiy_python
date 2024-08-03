@@ -1,85 +1,385 @@
-# PIOPIY Python SDK
+# Piopiy API - Python SDK
 
-The PIOPIY python SDK is used to integrate communications into your python applications using the PIOPIY REST API. Using the PIOPIY python SDK, you will be able to make voice calls and can control your call flows.
+## Overview
 
-## Install
+Piopiy API provides a comprehensive Python SDK for managing and controlling voice interactions using our PCMO Actions. This SDK allows developers to integrate voice functionalities such as making calls, playing audio, recording, and more into their Python applications.
 
-Follow the below installation instructions
+## PCMO Features
 
-### Prerequisites
+- **Make Calls**: Initiate voice calls between two parties or multiple numbers.
+- **Play and Get Input**: Play a media file or URL and get user input via DTMF.
+- **Play Music**: Stream audio files or URLs during a call.
+- **Text-to-Speech**: Convert text to speech during a call.
+- **Set Values and Inputs**: Set custom values and collect user inputs.
+- **Record Calls**: Record voice calls.
+- **Hangup Calls**: Terminate calls programmatically.
 
-Prerequisites for javascript web server.
+## Authentication
 
-- <a href="https://www.python.org/" target="_blank">python</a> (>= 2.7.16 required)
-- <a href="https://pypi.org/project/pip/" target="_blank">pip</a> (>= 18.1 required)
+The API requires an API Key and Secret for authentication, passed during the initialization of the `RestClient` object.
+
+## Dependencies
+
+- `Python` 3.x or higher
+- `pip`
+- `piopiy`
 
 ## Installation
 
-Install the SDK using npm
+To use the Piopiy API, install the piopiy package from PyPI:
 
 ```bash
-$ pip install piopiy
+pip install piopiy
 ```
 
+## Usage
 
-### Authentication
-
-In order to authenticate your app, and to make an API request, you should have an app id and secret for authentication. Find your App ID and secret in your <a href="https://doc.telecmi.com/piopiy/docs/build-app#app-id-and-secret" target="_blank">PIOPIY dashboard</a>
-
-Specifiy the authentication credentials 
+Here’s a basic example of how to use the Piopiy API:
 
 ```python
-import piopiy
-client=piopiy.RestClient('your_app_id','your_app_secret')
-```
+from piopiy import RestClient, Action
 
-### Make a call
+# Initialize the RestClient with your appid and app token
+piopiy = RestClient("your_appid", "your_app_token")
 
-To make a call, mention the to_number, piopiy_phone_number and <a href="https://doc.telecmi.com/piopiy/docs/configure-url" target="_blank">answer_url</a>.
+# Call two numbers with custom caller ID
+try:
+    response = piopiy.voice.call("first_phone_number", "piopiy_callerid", "second_phone_number", {
+        'loop': 1,
+        'timeout': 40,
+        'duration': 30
+    })
+    print(response)
+except Exception as error:
+    print(error)
 
-```python
-response=client.make(
-     'your_to_number',
-     'your_piopiy_phone_number',
-     'your_answer_url'
+# Call and perform PCMO action
+action = Action()
+
+action.playGetInput(
+    "https://example.com/webhook/dtmf",
+    "https://example.com/your_audio_file.wav",
+    {'max_digits': 3, 'max_retry': 2}
 )
+
+try:
+    response = piopiy.voice.call("dest_phone_number", "piopiy_callerid", action.PCMO(), {
+        'loop': 1,
+        'timeout': 40,
+        'duration': 30
+    })
+    print(response)
+except Exception as error:
+    print(error)
 ```
 
-### Hold a call
+## Make Call
 
-To hold a call, mention the cmiuuid of the call.
+The call() method in the Piopiy Python SDK is designed to handle various types of call interactions. It supports connecting two numbers, managing multiple numbers, and executing PCMO (Programmable Call Media Operations) actions during a call.
+
+## Usage
+
+### 1. Making a Basic Call
+
+To initiate a call between two numbers:
 
 ```python
-response=client.hold('cmiuuid')
+from piopiy import RestClient
+
+# Initialize the RestClient with your appid and app token
+piopiy = RestClient("your_appid", "your_app_token")
+
+try:
+    # Call two numbers with custom caller ID and additional options
+    response = piopiy.voice.call(
+        9194xxxxxx,         # first number to connect
+        9180xxxxxx,         # Caller ID
+        9180xxxxxx,         # second number to connect
+        {
+            'duration': 30,     # (Optional) Maximum duration of the call in seconds
+            'timeout': 40,      # (Optional) Time to wait for the call to be answered
+            'loop': 1,          # (Optional) Number of retry attempts if call is not answered
+            'record': True      # (Optional) Whether to record the call
+        }
+    )
+    print('Call connected, answer URL:', response)
+except Exception as error:
+    print('Error:', error)
 ```
 
-### Unhold a call
-To unhold a call, mention the cmiuuid of the call.
+### 2. Making a Call with PCMO Actions
+
+To make a call and perform specific PCMO actions, such as playing an audio file:
 
 ```python
-response=client.unhold('cmiuuid')
+from piopiy import RestClient, Action
+
+def main():
+    # Initialize the RestClient with your appid and app token
+    piopiy = RestClient("your_appid", "your_app_token")
+
+    # Define PCMO actions
+    action = Action()
+    action.playMusic('https://example.com/your_music_file.wav')
+
+    try:
+        # Call two numbers with custom caller ID, PCMO actions, and additional options
+        response = piopiy.voice.call(
+            9194xxxxxx,         # first number to connect
+            9180xxxxxx,         # Caller ID
+            9180xxxxxx,         # second number to connect
+            action.PCMO(),      # PCMO actions to execute during the call
+            {
+                'duration': 30,     # (Optional) Maximum duration of the call in seconds
+                'timeout': 40,      # (Optional) Time to wait for the call to be answered
+                'loop': 1,          # (Optional) Number of retry attempts if call is not answered
+                'record': True      # (Optional) Whether to record the call
+            }
+        )
+        print('Call with PCMO actions connected, answer URL:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
 ```
-### Toggle a call
-To toggle a call, mention the cmiuuid of the call.
+
+### 3. Handling Multiple Numbers
+
+To attempt connecting a call to multiple numbers sequentially:
 
 ```python
-response=client.toggle('cmiuuid')
+from piopiy import RestClient
+
+def main():
+    # Initialize the RestClient with your appid and app token
+    piopiy = RestClient("your_appid", "your_app_token")
+
+    try:
+        # Call two numbers with custom caller ID and additional options
+        response = piopiy.voice.call(
+            9194xxxxxx,          # first number to connect
+            9180xxxxxx,          # Caller ID
+            [9180xxxxx, 9196xxxx], # Array of second numbers to connect
+            {
+                'duration': 30,   # (Optional) Maximum duration of the call in seconds
+                'timeout': 40,    # (Optional) Time to wait for each call to be answered
+                'loop': 1,        # (Optional) Number of retry attempts for each number
+                'record': True    # (Optional) Whether to record the call
+            }
+        )
+        print('Call to multiple numbers connected, answer URL:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
 ```
 
-### Hangup a call
-To Hangup a call, mention the cmiuuid of the call.
+### `options` (dictionary) - Optional
+
+- `duration` (Number): Maximum call duration in seconds.
+- `timeout` (Number): Time in seconds to wait for each call to be answered.
+- `loop` (Number): Number of retry attempts for each call.
+- `record` (Boolean): Whether to record the call.
+
+---
+
+## PCMO (Piopiy Call Management Object)
+
+The PCMO is a powerful tool that enables you to define specific actions to be executed during a call. These actions can include playing audio files, collecting user input, speaking text, and more.
+
+### Setting Up PCMO Actions
+
+To use PCMO (Programmable Call Management Object) in Python with the Piopiy SDK, you need to create an instance of the `Action` class, define the actions you want to perform, and then pass these actions to the `call()` method. Here is how you can do it:
 
 ```python
-response=client.hanup('cmiuuid')
+from piopiy import RestClient, Action
+
+# Initialize RestClient with your API Key and Secret
+piopiy = RestClient("YOUR_API_KEY", "YOUR_API_SECRET")
+
+# Create an instance of the Action class
+action = Action()
+
 ```
-### More Examples
 
-Refer to the <a href="https://doc.telecmi.com/piopiy/docs/pcmo-overview" target="_blank">piopiy docs</a> for more examples. Now create the <a href="https://doc.telecmi.com/piopiy/docs/get-started#signup" target="_blank">PIOPIY account</a> and setup the flask server and test out your integration in few minutes.
+### Example Actions
 
+1. **Playing Audio**
 
+      - Play a specified audio file or URL during the call.
 
+      ```javascript
+      action.playMusic("https://example.com/your_music_file.wav");
+      ```
 
-### Reporting issues
+2. **Collecting DTMF Input**
 
-For any feedbacks and problems, you can report us by <a href="https://github.com/telecmi/piopiy_python/issues" >opening an issue on github</a>.
+      - Play a message and collect user input via DTMF tones.
 
+      ```javascript
+      action.playGetInput(
+              "https://example.com/webhook/dtmf",
+              "https://example.com/your_audio_file.wav",
+              {max_digit: 3, max_retry: 2}
+      );
+      ```
+
+3. **Text-to-Speech**
+
+      - Convert and play text as speech during the call.
+
+      ```javascript
+      action.speak("Hello, Welcome to Telecmi");
+      ```
+
+4. **Setting Custom Values**
+
+      - Set custom values for use during the call session.
+
+      ```javascript
+      action.setValue("name");
+      ```
+
+5. **Collecting Input**
+
+      - Collect user input, such as key presses, and send them to a specified URL.
+
+      ```javascript
+      action.input("https://example.com/action", {
+              timeout: 20,
+              max_digit: 4,
+              min_digit: 2,
+      });
+      ```
+
+6. **Recording the Call**
+
+      - Record the call session.
+
+      ```javascript
+      action.record();
+      ```
+
+7. **Ending the Call**
+
+      - Hang up the call.
+
+      ```javascript
+      action.hangup();
+      ```
+
+8. **Connecting to Other Numbers**
+
+      - Attempt to connect the caller to multiple numbers in sequence until one answers.
+
+      ```javascript
+      action.call(9198xxxxxx, [9180xxxx, 9180xxxx], { duration: 10, timeout: 20, loop: 2, record: true });
+      ```
+
+9. **Clearing Actions**
+
+      - Clear all defined actions.
+
+      ```javascript
+      action.clear();
+      ```
+
+### Using PCMO in a Call
+
+After defining the desired actions, use the `action.PCMO()` method to pass them to the `call()` method:
+
+```python
+from piopiy import RestClient, Action
+
+def main():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("YOUR_API_KEY", "YOUR_API_SECRET")
+
+    # Create an instance of the Action class
+    action = Action()
+
+    # Define PCMO actions
+    action.playMusic('https://example.com/your_music_file.wav')
+
+    try:
+        # Call two numbers with custom caller ID, PCMO actions, and additional options
+        response = piopiy.voice.call(
+            9194xxxxxx,          # first number to connect
+            9180xxxxxx,          # Caller ID
+            9180xxxxxx,          # second number to connect
+            action.PCMO(),       # PCMO actions
+            {
+                'duration': 30,   # (Optional) Maximum duration of the call in seconds
+                'timeout': 40,    # (Optional) Time to wait for the call to be answered
+                'loop': 1,        # (Optional) Number of retry attempts if call is not answered
+                'record': True    # (Optional) Whether to record the call
+            }
+        )
+        print('Call with PCMO actions connected, answer URL:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
+
+```
+
+### PCMO Method Parameters
+
+1. **playMusic(audioFileOrUrl)**
+
+      - `audioFileOrUrl` (String): The URL or path to the audio file to be played.
+
+2. **playGetInput(url, audioFileOrUrl, options)**
+
+      - `url` (String): The URL to send the DTMF input to.
+      - `audioFileOrUrl` (String): The URL or path to the audio file to be played.
+      - `options` (Dictionary): Optional settings:
+           - `max_digit` (Number): Maximum number of digits to capture.
+           - `max_retry` (Number): Number of retry attempts.
+
+3. **speak(text)**
+
+      - `text` (String): The text to convert to speech.
+
+4. **setValue(key)**
+
+      - `key` (String): The key name for the value to set.
+
+5. **input(url, options)**
+
+      - `url` (String): The URL to send the input data to.
+      - `options` (Dictionary): Optional settings:
+           - `timeout` (Number): Time in seconds to wait for input.
+           - `max_digit` (Number): Maximum number of digits to collect.
+           - `min_digit` (Number): Minimum number of digits to collect.
+
+6. **record()**
+
+      - No parameters. Starts recording the call.
+
+7. **hangup()**
+
+      - No parameters. Ends the call.
+
+8. **call(from, to, options)**
+
+      - `from` (Number): The caller's phone number.
+      - `to` (Number | Array): A single receiver's phone number or an array of phone numbers.
+      - `options` (Dictionary): Optional settings:
+           - `duration` (Number): Maximum call duration in seconds.
+           - `timeout` (Number): Time to wait for each call to be answered.
+           - `loop` (Number): Number of retry attempts for each number.
+           - `record` (Boolean): Whether to record the call.
+
+9. **hangup()**
+
+      - No parameters. Return PCMO Object
+
+10. **clear()**
+
+       - No parameters. Clears all defined actions.
+
+---

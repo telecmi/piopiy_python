@@ -18,8 +18,8 @@ def main():
   
   # print(action.PCMO())
 
-  client = RestClient(2222347,'xxxxxx')
-  result=client.voice.call(9198333333,91898989,919894, {'timeout': 40, 'loop': 2, 'duration':80,'ring_type':'group'})
+  piopiy = RestClient(2222347,'xxxxxx')
+  result=piopiy.voice.call(9198333333,91898989,919894, {'timeout': 40, 'loop': 2, 'duration':80,'ring_type':'group'})
   print(result)
 if __name__ == '__main__':
   main()

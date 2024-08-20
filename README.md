@@ -2,7 +2,7 @@
 
 ## Overview
 
-Piopiy API provides a comprehensive Python SDK for managing and controlling voice interactions using our PCMO Actions. This SDK allows developers to integrate voice functionalities such as making calls, playing audio, recording, and more into their Python applications.
+Piopiy API provides a comprehensive Python SDK for managing and controlling voice interactions using our PCMO Actions. This SDK allows developers to integrate voice functionalities such as making calls,bi-directional streaming for conversational AI, playing audio, recording, and more into their Python applications.
 
 ## PCMO Features
 

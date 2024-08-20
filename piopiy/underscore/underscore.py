@@ -15,6 +15,10 @@ def isArray(val):
 def isObject(obj):
     return isinstance(obj, dict)
 
+def isWs(url):
+    websocket_regex = re.compile(r'^(ws|wss)://')
+    return bool(websocket_regex.match(url))
+
 def isURL(url):
     # Regular expression to validate URL format
     url_pattern = re.compile(

@@ -1,6 +1,7 @@
 from piopiy.underscore import isString, isURL
 from .bridge import connect
 from .input import input,play_input
+from .stream import streamimg
 import json
 
 
@@ -51,6 +52,10 @@ class Action:
     def call(self, to_or_array, piopiy_no, option='none'):
         bridge = connect(to_or_array, piopiy_no, option)
         self.action.append(bridge)
+
+    def stream(self, ws_url, options='none'):
+        stream = streamimg(ws_url, options)
+        self.action.append(stream)
 
     def input(self, action_url, option='none'):
         dtmf = input(action_url, option)

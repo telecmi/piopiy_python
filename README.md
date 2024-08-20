@@ -127,7 +127,6 @@ def main():
         response = piopiy.voice.call(
             9194xxxxxx,         # first number to connect
             9180xxxxxx,         # Caller ID
-            9180xxxxxx,         # second number to connect
             action.PCMO(),      # PCMO actions to execute during the call
             {
                 'duration': 30,     # (Optional) Maximum duration of the call in seconds
@@ -144,7 +143,53 @@ if __name__ == '__main__':
     main()
 ```
 
-### 3. Handling Multiple Numbers
+### 3. Streaming Audio in a Call
+
+The `stream` method allows you to stream audio to the call in real-time using a WebSocket URL.
+
+Here is an example of how to use the `stream` feature in the Piopiy API:
+
+```python
+from piopiy import Action, RestClient
+
+def main():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("YOUR_API_KEY", "YOUR_API_SECRET")
+
+    action = Action()
+
+    # Define the stream action
+    action.stream(
+        'wss://telecmi.com/stream',
+        {
+            'listen_mode': 'callee',
+            'voice_quality': 8000,
+            'stream_on_answer': True
+        }
+    )
+
+    try:
+        # Call two numbers with custom caller ID, and execute the stream action
+        response = piopiy.voice.call(
+            9198333333,              # First number to connect
+            91898989,                # Caller ID
+            action.PCMO(),           # PCMO actions including the stream
+            {
+                'timeout': 40,
+                'loop': 2,
+                'duration': 80,
+                'ring_type': 'group'
+            }
+        )
+        print('Call with streaming audio connected, answer URL:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
+```
+
+### 4. Handling Multiple Numbers
 
 To attempt connecting a call to multiple numbers sequentially:
 
@@ -381,5 +426,3 @@ if __name__ == '__main__':
 10. **clear()**
 
        - No parameters. Clears all defined actions.
-
----

@@ -13,6 +13,9 @@ Piopiy API provides a comprehensive Python SDK for managing and controlling voic
 - **Set Values and Inputs**: Set custom values and collect user inputs.
 - **Record Calls**: Record voice calls.
 - **Hangup Calls**: Terminate calls programmatically.
+- **Stream Audio**: Stream real-time audio via WebSocket during a call.
+
+---
 
 ## Authentication
 
@@ -323,13 +326,25 @@ action = Action()
       action.call(9198xxxxxx, [9180xxxx, 9180xxxx], { duration: 10, timeout: 20, loop: 2, record: true });
       ```
 
-9. **Clearing Actions**
+9. **Streaming Audio**
 
-      - Clear all defined actions.
+      - Stream audio in real-time during the call using a WebSocket URL.
 
       ```javascript
-      action.clear();
+      action.stream("wss://telecmi.com/stream", {
+              listen_mode: "callee", // Options: "callee", "caller", or "both"
+              voice_quality: 12000, // Voice quality in bits per second
+              stream_on_answer: true, // Start streaming after the call is answered
+      });
       ```
+
+10. **Clearing Actions**
+
+       - Clear all defined actions.
+
+       ```javascript
+       action.clear();
+       ```
 
 ### Using PCMO in a Call
 
@@ -419,10 +434,18 @@ if __name__ == '__main__':
            - `loop` (Number): Number of retry attempts for each number.
            - `record` (Boolean): Whether to record the call.
 
-9. **PCMO()**
+9. **stream(url, options)**
 
-      - No parameters. Return PCMO Object
+      - `url` (String): The WebSocket URL for streaming audio during the call.
+      - `options` (Dictionary): Optional settings:
+           - `listen_mode` (String): Specifies who hears the streamed audio. Options are `callee`, `caller`, or `both`.
+           - `voice_quality` (Number): The desired voice quality in bits per second (e.g., 8000, 12000).
+           - `stream_on_answer` (Boolean): Whether to start streaming after the call is answered.
 
-10. **clear()**
+10. **PCMO()**
+
+       - No parameters. Returns the PCMO Object.
+
+11. **clear()**
 
        - No parameters. Clears all defined actions.

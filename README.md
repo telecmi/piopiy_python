@@ -2,7 +2,7 @@
 
 ## Overview
 
-Piopiy API provides a comprehensive Python SDK for managing and controlling voice interactions using our PCMO Actions. This SDK allows developers to integrate voice functionalities such as making calls, playing audio, recording, and more into their Python applications.
+Piopiy API provides a comprehensive Python SDK for managing and controlling voice interactions using our PCMO Actions. This SDK allows developers to integrate voice functionalities such as making calls,bi-directional streaming for conversational AI, playing audio, recording, and more into their Python applications.
 
 ## PCMO Features
 
@@ -13,6 +13,9 @@ Piopiy API provides a comprehensive Python SDK for managing and controlling voic
 - **Set Values and Inputs**: Set custom values and collect user inputs.
 - **Record Calls**: Record voice calls.
 - **Hangup Calls**: Terminate calls programmatically.
+- **Stream Audio**: Stream real-time audio via WebSocket during a call.
+
+---
 
 ## Authentication
 
@@ -127,7 +130,6 @@ def main():
         response = piopiy.voice.call(
             9194xxxxxx,         # first number to connect
             9180xxxxxx,         # Caller ID
-            9180xxxxxx,         # second number to connect
             action.PCMO(),      # PCMO actions to execute during the call
             {
                 'duration': 30,     # (Optional) Maximum duration of the call in seconds
@@ -144,7 +146,53 @@ if __name__ == '__main__':
     main()
 ```
 
-### 3. Handling Multiple Numbers
+### 3. Streaming Audio in a Call
+
+The `stream` method allows you to stream audio to the call in real-time using a WebSocket URL.
+
+Here is an example of how to use the `stream` feature in the Piopiy API:
+
+```python
+from piopiy import Action, RestClient
+
+def main():
+    # Initialize RestClient with your API Key and Secret
+    piopiy = RestClient("YOUR_API_KEY", "YOUR_API_SECRET")
+
+    action = Action()
+
+    # Define the stream action
+    action.stream(
+        'wss://telecmi.com/stream',
+        {
+            'listen_mode': 'callee',
+            'voice_quality': 8000,
+            'stream_on_answer': True
+        }
+    )
+
+    try:
+        # Call two numbers with custom caller ID, and execute the stream action
+        response = piopiy.voice.call(
+            9198333333,              # First number to connect
+            91898989,                # Caller ID
+            action.PCMO(),           # PCMO actions including the stream
+            {
+                'timeout': 40,
+                'loop': 2,
+                'duration': 80,
+                'ring_type': 'group'
+            }
+        )
+        print('Call with streaming audio connected, answer URL:', response)
+    except Exception as error:
+        print('Error:', error)
+
+if __name__ == '__main__':
+    main()
+```
+
+### 4. Handling Multiple Numbers
 
 To attempt connecting a call to multiple numbers sequentially:
 
@@ -278,13 +326,25 @@ action = Action()
       action.call(9198xxxxxx, [9180xxxx, 9180xxxx], { duration: 10, timeout: 20, loop: 2, record: true });
       ```
 
-9. **Clearing Actions**
+9. **Streaming Audio**
 
-      - Clear all defined actions.
+      - Stream audio in real-time during the call using a WebSocket URL.
 
       ```javascript
-      action.clear();
+      action.stream("wss://telecmi.com/stream", {
+              listen_mode: "callee", // Options: "callee", "caller", or "both"
+              voice_quality: 12000, // Voice quality in bits per second
+              stream_on_answer: true, // Start streaming after the call is answered
+      });
       ```
+
+10. **Clearing Actions**
+
+       - Clear all defined actions.
+
+       ```javascript
+       action.clear();
+       ```
 
 ### Using PCMO in a Call
 
@@ -374,12 +434,18 @@ if __name__ == '__main__':
            - `loop` (Number): Number of retry attempts for each number.
            - `record` (Boolean): Whether to record the call.
 
-9. **PCMO()**
+9. **stream(url, options)**
 
-      - No parameters. Return PCMO Object
+      - `url` (String): The WebSocket URL for streaming audio during the call.
+      - `options` (Dictionary): Optional settings:
+           - `listen_mode` (String): Specifies who hears the streamed audio. Options are `callee`, `caller`, or `both`.
+           - `voice_quality` (Number): The desired voice quality in bits per second (e.g., 8000, 12000).
+           - `stream_on_answer` (Boolean): Whether to start streaming after the call is answered.
 
-10. **clear()**
+10. **PCMO()**
+
+       - No parameters. Returns the PCMO Object.
+
+11. **clear()**
 
        - No parameters. Clears all defined actions.
-
----

@@ -2,6 +2,7 @@ from piopiy.underscore import isString, isURL
 from .bridge import connect
 from .input import input,play_input
 from .stream import streamimg
+import json
 
 
 class StreamAction:
@@ -49,13 +50,13 @@ class StreamAction:
         self.action.append({"action": "hangup"})
 
     def pause(self):
-        return str({"action": "pause"})
+        return json.dumps({"action": "pause"})
     
     def resume(self):
-        return str({"action": "resume"})
+        return json.dumps({"action": "resume"})
     
     def stop(self):
-        return str({"action": "stop"})
+        return json.dumps({"action": "stop"})
     
     def call(self, to_or_array, piopiy_no, option='none'):
         bridge = connect(to_or_array, piopiy_no, option)
@@ -68,7 +69,7 @@ class StreamAction:
     def PCMO(self):
         stream_pcmo = self.action
         self.clear()
-        return str(stream_pcmo)
+        return json.dumps(stream_pcmo)
     
     def clear(self):
         self.action = []

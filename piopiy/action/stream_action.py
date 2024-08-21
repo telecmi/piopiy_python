@@ -4,7 +4,7 @@ from .input import input,play_input
 from .stream import streamimg
 
 
-class Action:
+class StreamAction:
     def __init__(self):
         self.action = []
 
@@ -48,6 +48,15 @@ class Action:
     def hangup(self):
         self.action.append({"action": "hangup"})
 
+    def pause(self):
+        return str({"action": "pause"})
+    
+    def resume(self):
+        return str({"action": "resume"})
+    
+    def stop(self):
+        return str({"action": "stop"})
+    
     def call(self, to_or_array, piopiy_no, option='none'):
         bridge = connect(to_or_array, piopiy_no, option)
         self.action.append(bridge)
@@ -56,16 +65,10 @@ class Action:
         stream = streamimg(ws_url, options)
         self.action.append(stream)
 
-    def input(self, action_url, option='none'):
-        dtmf = input(action_url, option)
-        self.action.append(dtmf)
-
-    def playGetInput(self, action_url, music_file, option='none'):
-        dtmf = play_input(action_url, music_file, option)
-        self.action.append(dtmf)
-
     def PCMO(self):
-        return self.action
+        stream_pcmo = self.action
+        self.clear()
+        return str(stream_pcmo)
     
     def clear(self):
         self.action = []

@@ -66,7 +66,7 @@ if __name__ == '__main__':
       - `url` (String): The WebSocket URL where the audio should be streamed.
       - `options` (dict): Configuration settings:
            - `listen_mode` (String): Determines which side’s audio to stream. Options are `'caller'`, `'callee'`, or `'both'`.
-           - `voice_quality` (int): The audio quality in Hz. Options are `8000`, `12000`, `16000`.
+           - `voice_quality` (String): The audio quality in Hz. Options are `8000`, `16000`.
            - `stream_on_answer` (bool): Whether to start streaming only when the call is answered (default is `True`).
 
 ## Example Use Cases

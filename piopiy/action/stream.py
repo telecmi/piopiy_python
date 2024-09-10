@@ -11,7 +11,7 @@ def streamimg(ws_url,options):
 
         if isObject(options):
             stream['listen_mode'] = options.get('listen_mode', 'caller')
-            stream['voice_quality'] = options.get('voice_quality', 8000)
+            stream['voice_quality'] = options.get('voice_quality', '8000')
             stream['stream_on_answer'] = options.get('stream_on_answer', False)
 
         return stream

@@ -14,9 +14,9 @@ def main():
   ## action.hangup()
   ## action.input('https://telecmi.com/input',{'max_digits': 1, 'timeout': 0})
   ## action.playGetInput('https://telecmi.com/input','https://telecmi.com/s3/music/telecmi.mp3',{'max_digits': 1, 'timeout': 10, 'max_retry': 1})
-  action.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality': 12000, 'stream_on_answer': True})
+  action.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
   print(action.PCMO())
-  stream.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality': 12000, 'stream_on_answer': True})
+  stream.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
  
   print(stream.PCMO())
 

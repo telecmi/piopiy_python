@@ -439,7 +439,7 @@ if __name__ == '__main__':
       - `url` (String): The WebSocket URL for streaming audio during the call.
       - `options` (Dictionary): Optional settings:
            - `listen_mode` (String): Specifies who hears the streamed audio. Options are `callee`, `caller`, or `both`.
-           - `voice_quality` (Number): The desired voice quality in bits per second (e.g., 8000, 12000).
+           - `voice_quality` (String): The desired voice quality in bits per second. Options are `8000`, `16000`.
            - `stream_on_answer` (Boolean): Whether to start streaming after the call is answered.
 
 10. **PCMO()**

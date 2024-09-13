@@ -2,6 +2,7 @@ from piopiy.underscore import isString, isURL
 from .bridge import connect
 from .input import input,play_input
 from .stream import streamimg
+from .play_stream import play_base64_audio
 import json
 
 
@@ -65,6 +66,12 @@ class StreamAction:
     def stream(self, ws_url, options='none'):
         stream = streamimg(ws_url, options)
         self.action.append(stream)
+
+
+    def playStream(self,*,audio_base64, audio_type, sample_rate):
+        play_stream = play_base64_audio(audio_base64, audio_type, sample_rate)
+        return play_stream
+        
 
     def PCMO(self):
         stream_pcmo = self.action

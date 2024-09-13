@@ -11,7 +11,7 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="1.0.6.2",
+    version="1.0.7",
     description="PIOPIY SDK for Python",
     long_description=long_description,
     long_description_content_type="text/markdown",

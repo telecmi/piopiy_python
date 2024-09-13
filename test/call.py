@@ -14,11 +14,12 @@ def main():
   ## action.hangup()
   ## action.input('https://telecmi.com/input',{'max_digits': 1, 'timeout': 0})
   ## action.playGetInput('https://telecmi.com/input','https://telecmi.com/s3/music/telecmi.mp3',{'max_digits': 1, 'timeout': 10, 'max_retry': 1})
-  action.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
-  print(action.PCMO())
-  stream.stream('wss://telecmi.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
+  #action.stream('wss://example.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
+  #print(action.PCMO())
+  #stream.stream('wss://example.com/stream',{'listen_mode': 'callee', 'voice_quality':'8000', 'stream_on_answer': True})
  
-  print(stream.PCMO())
+  stream_object=stream.playStream(audio_base64='UklGRhQAAABXQVZFZm10IBAAAAABAAEAgD4AAAB9AAACABAAZGF0YQAAAAA=', audio_type='mp3', sample_rate=8000)
+  print(stream_object)
 
   # piopiy = RestClient(2222347,'xxxxxx')
   #result=piopiy.voice.call(9198333333,91898989,919894, {'timeout': 40, 'loop': 2, 'duration':80,'ring_type':'group'})

@@ -1,4 +1,5 @@
-from piopiy.underscore import isString, isObject
+from piopiy.underscore import isString
+import json
 import base64
 
 def play_base64_audio(audio_base64,audio_type,sample_rate):
@@ -13,14 +14,14 @@ def play_base64_audio(audio_base64,audio_type,sample_rate):
 
     if isString(audio_base64):
         if is_base64(audio_base64):
-         return {
+         return json.dumps({
                "type": "streamAudio",
                "data": {
                "audioDataType":audio_type,
                "sampleRate": sample_rate,
                "audioData": audio_base64    
                }
-              }
+              })
         else:
             raise NameError('audio_base64 is not base64')
     else:

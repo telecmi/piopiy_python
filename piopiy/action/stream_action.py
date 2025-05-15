@@ -53,6 +53,9 @@ class StreamAction:
     def pause(self):
         return json.dumps({"action": "pause"})
     
+    def interrupt(self):
+        return json.dumps({"action": "break"})
+    
     def resume(self):
         return json.dumps({"action": "resume"})
     

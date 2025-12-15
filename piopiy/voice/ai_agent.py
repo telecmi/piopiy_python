@@ -11,7 +11,7 @@ from enum import Enum
 from typing import Optional, Dict, Any, Union
 
 # Constants for API Endpoints
-API_BASE_URL = "http://localhost:8282/v3"
+API_BASE_URL = "https://rest.piopiy.com/v3"
 ENDPOINT_AI_CALL = f"{API_BASE_URL}/voice/ai/call"
 
 

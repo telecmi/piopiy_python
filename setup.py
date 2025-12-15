@@ -12,7 +12,7 @@ with io.open(
 setup(
     name="piopiy",
     version="1.0.8",
-    description="PIOPIY AI Agent, Voice and WhatsApp SDK for Python",
+    description="PIOPIY: Complete Voice AI Agent & CPaaS Platform SDK (Voice, Queue, Campaigns, WhatsApp, SMS)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/telecmi/piopiy_python",

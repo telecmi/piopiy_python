@@ -1,6 +1,8 @@
-# Piopiy AI Agent SDK - Python
+# Piopiy AI Agent, Voice & WhatsApp SDK - Python
 
-The Piopiy AI Agent SDK allows you to easily initiate and manage AI-driven voice calls.
+The official Python SDK for **Piopiy** - a complete **Voice AI Agent and CPaaS Platform**.
+
+Easily build intelligent Voice Agents, manage complex call flows (queues, human handoff), execute bulk voice campaigns, and send multi-channel notifications via WhatsApp and SMS.
 
 ## Installation
 
@@ -79,3 +81,11 @@ try:
 except Exception as e:
     print("Error:", e)
 ```
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `call_id` | `string` | **Yes** | The unique identifier (UUID) of the call to hang up. |
+| `cause` | `string` | No | The cause for hanging up. Defaults to `"NORMAL_CLEARING"`. |
+| `reason` | `string` | No | Additional text description or reason for terminating the call. |

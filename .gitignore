@@ -1,11 +1,19 @@
-
+# Environments
 env/
 myenv/
-db
-piopiy/__pycache__/
-piopiy/action/__pycache__/
-piopiy/underscore/__pycache__/
-piopiy/voice/__pycache__/
+venv/
+.venv/
+
+# Build artifacts
 build/
 dist/
-piopiy.egg-info/
+*.egg-info/
+*.egg
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Metadata
+.DS_Store

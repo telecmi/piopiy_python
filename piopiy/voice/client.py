@@ -1,28 +1,26 @@
-from .voice import Voice
-from .hold import Hold
+from .ai_agent import AIAgent
 from .hangup import Hangup
-
+import requests
+from typing import Optional, Dict, Any
 
 class RestClient:
+    """
+    Client for the Piopiy AI Agent API.
+    """
 
-    def __init__(self, appid, secret):
+    def __init__(self, token):
+        """
+        Initialize the RestClient.
 
-        if isinstance(appid, int) and isinstance(secret, str):
-          
-         self.appid = appid
-         self.secret = secret
-         self.voice = Voice(self.appid, self.secret)
-        else:
-              raise NameError('appid and secret type is invalid')
+        Args:
+            token (str): The Bearer token for authentication.
 
-    def hold(self, uuid):
-        return Hold(self.appid, self.secret).hold(uuid)
-
-    def unhold(self, uuid):
-        return Hold(self.appid, self.secret).unhold(uuid)
-
-    def toggle(self, uuid):
-        return Hold(self.appid, self.secret).toggle(uuid)
-
-    def hangup(self, uuid):
-        return Hangup(self.appid, self.secret).hangup(uuid)
+        Raises:
+            ValueError: If the token is missing.
+        """
+        if not token:
+             raise ValueError('A valid Bearer token is required.')
+        
+        self.token = token
+        self.ai = AIAgent(token)
+        self.voice = Hangup(token)

@@ -8,7 +8,7 @@ import requests
 from typing import Optional, Dict, Any
 
 # Constants for API Endpoints
-API_BASE_URL = "http://localhost:8282/v3"
+API_BASE_URL = "https://rest.piopiy.com/v3"
 ENDPOINT_HANGUP = f"{API_BASE_URL}/voice/call/hangup"
 
 

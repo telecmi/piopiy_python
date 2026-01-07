@@ -11,7 +11,7 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="1.0.9",
+    version="1.1.0",
     description="PIOPIY: Complete Voice AI Agent & CPaaS Platform SDK (Voice, Queue, Campaigns, WhatsApp, SMS)",
     long_description=long_description,
     long_description_content_type="text/markdown",

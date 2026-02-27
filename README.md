@@ -1,8 +1,11 @@
-# Piopiy AI Agent, Voice & WhatsApp SDK - Python
+# Piopiy Python SDK
 
-The official Python SDK for **Piopiy** - a complete **Voice AI Agent and CPaaS Platform**.
+Production-ready Python SDK for Piopiy Voice Orchestrator APIs. Easily build AI voice agents, manage programmable voice calls, and orchestrate complex call flows directly from your Python applications.
 
-Easily build intelligent Voice Agents, manage complex call flows (queues, human handoff), execute bulk voice campaigns, and send multi-channel notifications via WhatsApp and SMS.
+## Prerequisites
+
+- Python 3.7 or higher
+- A Piopiy account and API token (Get yours from the [Piopiy Dashboard](https://piopiy.com))
 
 ## Installation
 
@@ -10,82 +13,105 @@ Easily build intelligent Voice Agents, manage complex call flows (queues, human 
 pip install piopiy
 ```
 
-## Usage
+## Quick Start
 
-### 1. Initialize the Client
-
-You strictly need a Bearer token to initialize the client.
+Initialize the client using your API token. We recommend storing your token in an environment variable securely.
 
 ```python
-from piopiy import RestClient
+import os
+from piopiy_voice import RestClient
 
-# Initialize with your Bearer token
-client = RestClient(token="your_bearer_token")
+client = RestClient(token=os.environ.get("PIOPIY_API_TOKEN"))
 ```
 
-### 2. Initiate an AI Call
+## Main Examples
 
-Trigger an outbound call handled by your AI Agent.
+### 1) AI Single Call
 
 ```python
-try:
-    response = client.ai.call(
-        caller_id="919999999999",      # The number displayed to the callee
-        to_number="918888888888",      # The destination number
-        agent_id="bdd32bcb-...",       # Your AI Agent ID
-        options={
-            "max_duration_sec": 600,   # Optional: Limit call duration (30-7200)
-            "record": True,            # Optional: Record the call
-            "ring_timeout_sec": 40     # Optional: Ring timeout (5-120)
-        },
-        variables={
-            "customer_name": "John Doe",  # Custom variables for the AI Agent
-            "subscription": "premium"
-        }
+response = client.ai.call(
+    caller_id="919999999999",
+    to_number="918888888888",
+    agent_id="bdd32bcb-767c-40a5-be4a-5f45eeb348a6",
+)
+print(response)
+```
+
+Example code: [`example/ai_agent/02_ai_call_minimal.py`](example/ai_agent/02_ai_call_minimal.py)
+
+### 2) AI Call With Failover
+
+```python
+response = client.ai.call(
+    caller_id="919999999999",
+    to_number="918888888888",
+    agent_id="bdd32bcb-767c-40a5-be4a-5f45eeb348a6",  # primary agent
+    app_id="your_app_id",
+    failover={
+        "agent_id": "2f2ae3ad-7ff6-4011-b10e-9ca1f8f8d1a2",  # failover agent
+        "strategy": "sequential",
+        "ring_timeout_sec": 20,
+        "machine_detection": True,
+    },
+)
+print(response)
+```
+
+Failover rules:
+- `app_id` is required when `failover` is used.
+- `failover.agent_id` is required (single failover agent).
+- Failover agent must be different from primary `agent_id`.
+
+Example code: [`example/ai_agent/04_ai_call_with_failover.py`](example/ai_agent/04_ai_call_with_failover.py)
+
+### 3) Voice Direct Call
+
+```python
+response = client.voice.call(
+    caller_id="919999999999",
+    to_number="918888888888",
+    app_id="your_app_id",
+)
+print(response)
+```
+
+Example code: [`example/voice_call/01_voice_call_direct.py`](example/voice_call/01_voice_call_direct.py)
+
+### 4) PCMO Simple Call
+
+```python
+from piopiy_voice import PipelineBuilder
+
+pipeline = (
+    PipelineBuilder()
+    .connect(
+        params={"caller_id": "919999999999"},
+        endpoints=[{"type": "pstn", "number": "918888888888"}],
     )
-    print("Call Initiated:", response)
-except Exception as e:
-    print("Error:", e)
+    .build()
+)
+
+response = client.pcmo.call(
+    caller_id="919999999999",
+    to_number="918888888888",
+    app_id="your_app_id",
+    pipeline=pipeline,
+)
+print(response)
 ```
 
-#### Parameters
+Example code: [`example/pcmo_call/02_pcmo_call_minimal.py`](example/pcmo_call/02_pcmo_call_minimal.py)
 
-| Parameter | Type | Required | constraints | Description |
-|-----------|------|----------|-------------|-------------|
-| `caller_id` | `string` | **Yes** | `^[1-9][0-9]{6,15}$` | The number calling from. Must start with 1-9 and be 7-16 digits long. |
-| `to_number` | `string` | **Yes** | `^[1-9][0-9]{6,15}$` | The destination number. Must start with 1-9 and be 7-16 digits long. |
-| `agent_id` | `string` | **Yes** | `uuid` | The unique UUID of the AI agent. |
-| `options` | `object` | No | - | Configuration options for the call. |
-| `variables` | `object` | No | - | Custom variables to pass to the agent. Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. Values can be string, number, or boolean. |
+## Other Actions And Full Docs
 
-#### Options Object
+- AI transfer/hangup + all AI docs: [`docs/examples/ai_agent/README.md`](docs/examples/ai_agent/README.md)
+- Voice transfer/hangup + full voice convenience docs: [`docs/examples/voice_call/README.md`](docs/examples/voice_call/README.md)
+- PCMO transfer + all pipeline actions: [`docs/examples/pcmo_call/README.md`](docs/examples/pcmo_call/README.md)
+- Flow connect (minimal): [`docs/examples/flow_call/README.md`](docs/examples/flow_call/README.md)
+- Full SDK contract/validation details: [`docs/SDK_RESTRUCTURE.md`](docs/SDK_RESTRUCTURE.md)
 
-| Key | Type | constraints | Description |
-|-----|------|-------------|-------------|
-| `max_duration_sec` | `integer` | `30` - `7200` | Maximum duration of the call in seconds. |
-| `ring_timeout_sec` | `integer` | `5` - `120` | Time in seconds to wait for the call to be answered. |
-| `record` | `boolean` | - | Whether to record the call. |
+## Extra Example Code Indexes
 
-### 3. Terminate a Call
-
-Hang up an active call programmatically.
-
-```python
-try:
-    response = client.voice.hangup(
-        call_id="bf2d781e-...",        # The Call UUID
-        cause="NORMAL_CLEARING",       # Hangup cause
-        reason="Consultation done"     # Optional reason
-    )
-    print("Call Terminated:", response)
-except Exception as e:
-    print("Error:", e)
-```
-
-#### Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `call_id` | `string` | **Yes** | The unique identifier (UUID) of the call to hang up. |
-| `cause` | `string` | No | The cause for hanging up. Defaults to `"NORMAL_CLEARING"`. |
-| `reason` | `string` | No | Additional text description or reason for terminating the call. |
+- AI examples folder: [`example/ai_agent`](example/ai_agent)
+- Voice examples folder: [`example/voice_call`](example/voice_call)
+- PCMO examples folder: [`example/pcmo_call`](example/pcmo_call)

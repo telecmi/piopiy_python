@@ -11,18 +11,27 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="1.1.0",
-    description="PIOPIY: Complete Voice AI Agent & CPaaS Platform SDK (Voice, Queue, Campaigns, WhatsApp, SMS)",
+    version="1.2.1",
+    description="Production-ready Python SDK for Piopiy Voice Orchestrator APIs.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/telecmi/piopiy_python",
     author="PIOPIY",
     author_email="support@telecmi.com",
     license="Apache 2.0",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests*", "example*", "docs*"]),
     platforms=["any"],
-    install_requires=['requests==2.32.3'],
+    install_requires=['requests>=2.32.0,<3.0.0'],
     python_requires=">=3.7",
+    keywords=[
+        "voice", "ai", "cpaas", "telecmi", "agent",
+        "call", "telephony", "piopiy", "orchestrator"
+    ],
+    project_urls={
+        "Documentation": "https://github.com/telecmi/piopiy_python#readme",
+        "Source Code": "https://github.com/telecmi/piopiy_python",
+        "Issue Tracker": "https://github.com/telecmi/piopiy_python/issues",
+    },
     classifiers=[
         "Programming Language :: Python",
         "License :: OSI Approved :: Apache Software License",

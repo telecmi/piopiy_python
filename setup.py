@@ -11,7 +11,7 @@ with io.open(
 
 setup(
     name="piopiy",
-    version="1.2.1",
+    version="1.2.2",
     description="Production-ready Python SDK for Piopiy Voice Orchestrator APIs.",
     long_description=long_description,
     long_description_content_type="text/markdown",
